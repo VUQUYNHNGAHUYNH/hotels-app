@@ -7,6 +7,7 @@ import Button from "../Button";
 type ModalProps = {
   isOpen?: boolean;
   onSubmit: () => void;
+  onClose: () => void;
   title?: string;
   body?: React.ReactElement;
   actionLabel: string;
@@ -18,6 +19,7 @@ type ModalProps = {
 const Modal: React.FC<ModalProps> = ({
   isOpen,
   onSubmit,
+  onClose,
   title,
   body,
   actionLabel,
@@ -33,7 +35,8 @@ const Modal: React.FC<ModalProps> = ({
   const handleClose = useCallback(() => {
     if (disabled) return;
     setShowModal(false);
-  }, [disabled]);
+    setTimeout(() => onClose(), 300);
+  }, [disabled, onClose]);
 
   const handleSubmit = useCallback(() => {
     if (disabled) return;
@@ -47,43 +50,47 @@ const Modal: React.FC<ModalProps> = ({
     secondaryActionLabel();
   }, [disabled, secondaryLabel, secondaryActionLabel]);
 
+  if (!isOpen) return null;
   return (
     <div className="flex justify-center items-center overflow-hidden z-50 fixed inset-0 bg-slate-600/80 ">
-      <div className="relative w-full lg:w-3/5 xl:w-2/5 mx-auto h-full lg:h-auto">
+      <div className="w-full lg:w-3/5 xl:w-2/5 mx-auto h-full lg:h-auto flex items-center justify-center">
         <div
           className={`flex flex-col rounded-lg shadow-lg bg-white translate duration-300
         ${
           showModal ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
         }
         `}
-        ></div>
-        {/* header */}
-        <div className="relative flex items-center justify-center p-6 border-b">
-          <IoMdClose
-            size={20}
-            onClick={handleClose}
-            className="absolute left-9 hover:text-yellow-600 cursor-pointer"
-          />
-          <div className="text-lg font-semibold">{title}</div>
-        </div>
-        {/* body */}
-        <div className="relative p-6 flex-auto">{body}</div>
-        {/* button */}
-        <div className="flex items-center w-full gap-4">
-          {secondaryLabel && secondaryActionLabel && (
-            <Button
-              outline
-              disabled={disabled}
-              label={secondaryLabel}
-              onClick={handleSecondaryAction}
+        >
+          {/* header */}
+          <div className="relative flex items-center justify-center p-6 border-b">
+            <IoMdClose
+              size={20}
+              onClick={handleClose}
+              className="absolute left-9 hover:text-yellow-600 cursor-pointer"
             />
-          )}
+            <div className="text-2xl font-semibold text-yellow-600">
+              {title}
+            </div>
+          </div>
+          {/* body */}
+          <div className="relative p-6 flex-auto">{body}</div>
+          {/* button */}
+          <div className="flex items-center w-full gap-4 p-4">
+            {secondaryLabel && secondaryActionLabel && (
+              <Button
+                outline
+                disabled={disabled}
+                label={secondaryLabel}
+                onClick={handleSecondaryAction}
+              />
+            )}
 
-          <Button
-            disabled={disabled}
-            label={actionLabel}
-            onClick={handleSubmit}
-          />
+            <Button
+              disabled={disabled}
+              label={actionLabel}
+              onClick={handleSubmit}
+            />
+          </div>
         </div>
       </div>
     </div>
