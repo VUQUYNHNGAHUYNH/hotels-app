@@ -2,14 +2,15 @@
 
 import Image from "next/image";
 import Container from "../Container";
+import Categories from "./Categories";
 import Menu from "./Menu";
 import Search from "./Search";
 
 const Navbar = () => {
   return (
-    <div className="fixed w-full z-10 shadow-sm py-4 border-b-2">
+    <div className="fixed w-full z-10 shadow-sm">
       <Container>
-        <div className="flex items-center justify-between gap-3 md:gap-0">
+        <div className="flex items-center justify-between gap-3 md:gap-0 py-4 border-b-2">
           {/* logo */}
           <Image
             src="/img/logo.svg"
@@ -24,6 +25,8 @@ const Navbar = () => {
           <Menu />
         </div>
       </Container>
+      {/* categories */}
+      <Categories />
     </div>
   );
 };
