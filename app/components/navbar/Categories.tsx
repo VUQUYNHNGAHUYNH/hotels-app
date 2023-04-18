@@ -12,6 +12,7 @@ import {
 import { MdOutlineVilla } from "react-icons/md";
 import Container from "../Container";
 import CategoryItem from "../CategoryItem";
+import { useSearchParams } from "next/navigation";
 
 export const categories = [
   {
@@ -57,6 +58,9 @@ export const categories = [
 ];
 
 const Categories = () => {
+  const params = useSearchParams();
+  const category = params?.get("category");
+
   return (
     <Container>
       <div className="flex justify-between items-center overflow-x-auto pt-4">
@@ -65,7 +69,7 @@ const Categories = () => {
             key={item.label}
             label={item.label}
             icon={item.icon}
-            selected={true}
+            selected={category === item.label}
           />
         ))}
       </div>
