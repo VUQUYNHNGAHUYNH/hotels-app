@@ -8,7 +8,7 @@ import Search from "./Search";
 
 const Navbar = () => {
   return (
-    <div className="fixed w-full z-10 shadow-sm">
+    <div className="fixed w-full z-10 shadow-sm bg-white">
       <Container>
         <div className="flex items-center justify-between gap-3 md:gap-0 py-4 border-b-2">
           {/* logo */}

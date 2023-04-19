@@ -26,16 +26,17 @@ const PropertiesModal = () => {
   const router = useRouter();
   const propertiesModal = usePropertiesModal();
 
-  const { handleSubmit, setValue, watch, reset } = useForm<FieldValues>({
-    defaultValues: {
-      category: "",
-      location: "",
-      imageSrc: "",
-      guestCount: 1,
-      roomCount: 1,
-      price: 1,
-    },
-  });
+  const { register, handleSubmit, setValue, watch, reset } =
+    useForm<FieldValues>({
+      defaultValues: {
+        category: "",
+        location: "",
+        imageSrc: "",
+        guestCount: 1,
+        roomCount: 1,
+        price: 1,
+      },
+    });
 
   //  get the current value of the input field
   const category = watch("category");
@@ -43,6 +44,7 @@ const PropertiesModal = () => {
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
   const imageSrc = watch("imageSrc");
+  const price = watch("price");
 
   const setCustomeValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -158,12 +160,22 @@ const PropertiesModal = () => {
     bodyContent = (
       <div className="flex flex-col gap-8">
         <div className="text-2xl font-bold mb-4">
-          How much do you charge per night? ($)
+          How much do you charge per night?
         </div>
-        <input
-          placeholder="Price"
-          className="p-2 rounded-lg border-gray-300 border-2"
-        />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <label
+            htmlFor="price"
+            className="mb-4 text-lg font-medium text-gray-900"
+          >
+            Price($)
+          </label>
+          <input
+            type="number"
+            id="price"
+            {...register("price")}
+            className="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-base rounded-lg"
+          />
+        </form>
       </div>
     );
   }

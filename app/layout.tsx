@@ -17,10 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Navbar />
       <body className={font.className}>
         <PropertiesModal />
-        {children}
+        <Navbar />
+        <div className="pb-20 pt-24">{children}</div>
       </body>
     </html>
   );
