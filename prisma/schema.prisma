@@ -10,27 +10,26 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Bookings {
-    id          String        @id @default(auto()) @map("_id") @db.ObjectId
-    title       String
-    description String
-    imageSrc    String
-    category    String
-    createAt    DateTime      @default(now())
-    roomCount   Int
-    guestCount  Int
-    price       Int
-    location    String
-    Reservation Reservation[]
+model Properties {
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    imageSrc   String
+    category   String
+    createAt   DateTime @default(now())
+    roomCount  Int
+    guestCount Int
+    price      Int
+    location   String
+
+    bookings Bookings[]
 }
 
-model Reservation {
-    id         String   @id @default(auto()) @map("_id") @db.ObjectId
-    bookingId  String   @db.ObjectId
-    startDate  DateTime
-    endDate    DateTime
-    totalPrice Int
-    createAt   DateTime @default(now())
+model Bookings {
+    id           String   @id @default(auto()) @map("_id") @db.ObjectId
+    propertiesId String   @db.ObjectId
+    startDate    DateTime
+    endDate      DateTime
+    totalPrice   Int
+    createAt     DateTime @default(now())
 
-    bookings Bookings @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+    properties Properties @relation(fields: [propertiesId], references: [id], onDelete: Cascade)
 }

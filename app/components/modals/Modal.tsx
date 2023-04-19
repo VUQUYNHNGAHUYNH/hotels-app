@@ -53,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
   return (
     <div className="flex justify-center items-center overflow-hidden z-50 fixed inset-0 bg-slate-600/80 ">
-      <div className="w-full lg:w-3/5 xl:w-2/5 mx-auto h-full lg:h-auto flex items-center justify-center">
+      <div className="relative w-full lg:w-3/5 2xl:w-2/5 mx-auto h-auto">
         <div
           className={`flex flex-col rounded-lg shadow-lg bg-white translate duration-300
         ${

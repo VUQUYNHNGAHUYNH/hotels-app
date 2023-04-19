@@ -17,11 +17,11 @@ const Button: React.FC<ButtonProps> = ({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`relative text-lg p-2 disabled:opacity-70 rounded-lg hover:opacity-80 transition w-full
+      className={`relative text-lg p-1 disabled:opacity-70 rounded-lg hover:opacity-80 transition w-full
        ${
          outline
-           ? "bg-white border-yellow-600 border-2 text-yellow-600"
-           : "bg-yellow-600 text-white"
+           ? "bg-white  border-yellow-600 border-2 text-yellow-600"
+           : "bg-yellow-600 text-white border-yellow-600 border-2 "
        }`}
     >
       {label}

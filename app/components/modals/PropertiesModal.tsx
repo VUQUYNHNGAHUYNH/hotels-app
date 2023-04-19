@@ -2,38 +2,38 @@
 
 import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FieldValues } from "react-hook-form/dist/types";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { FieldValues, SubmitHandler } from "react-hook-form/dist/types";
 import usePropertiesModal from "../hooks/usePropertiesModal";
 import CategoryInput from "../input/CategoryInput";
+import CounterInput from "../input/CounterInput";
+import CountryInput from "../input/CountryInput";
+import ImageUpload from "../input/ImageUpload";
 import { categories } from "../navbar/Categories";
 import Modal from "./Modal";
 
 enum STEPS {
   CATEGORY = 0,
   LOCATION = 1,
-  IMAGES = 2,
-  DESCRIPTION = 3,
+  INFO = 2,
+  IMAGES = 3,
   PRICE = 4,
 }
+
 const PropertiesModal = () => {
+  const router = useRouter();
   const propertiesModal = usePropertiesModal();
 
-  const {
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors },
-    reset,
-  } = useForm<FieldValues>({
+  const { handleSubmit, setValue, watch, reset } = useForm<FieldValues>({
     defaultValues: {
       category: "",
       location: "",
       imageSrc: "",
-      guestCount: 0,
-      roomCount: 0,
-      price: 0,
-      title: "",
-      description: "",
+      guestCount: 1,
+      roomCount: 1,
+      price: 1,
     },
   });
 
@@ -58,6 +58,23 @@ const PropertiesModal = () => {
   };
   const onNext = () => {
     setStep((value) => value + 1);
+  };
+
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    if (step !== STEPS.PRICE) {
+      return onNext();
+    }
+
+    axios
+      .post("/api/properties", data)
+      .then(() => {
+        toast.success("Property created successfully");
+        router.refresh();
+        reset();
+        setStep(STEPS.CATEGORY);
+        propertiesModal.onClose();
+      })
+      .catch(() => toast.error("Something went wrong!"));
   };
 
   const actionLabel = useMemo(() => {
@@ -88,11 +105,74 @@ const PropertiesModal = () => {
       </div>
     </div>
   );
+
+  if (step === STEPS.LOCATION) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <div className="text-2xl font-bold mb-4">
+          Where is your place located?
+        </div>
+        <CountryInput
+          value={location}
+          onChange={(value) => setCustomeValue("location", value)}
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.INFO) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <div className="text-2xl font-bold mb-4">
+          Share some basics about your place?
+        </div>
+        <CounterInput
+          title="Guests"
+          subtitle="How many guests do you allow?"
+          value={guestCount}
+          onChange={(value) => setCustomeValue("guestCount", value)}
+        />
+        <CounterInput
+          title="Rooms "
+          subtitle="How many rooms do you have?"
+          value={roomCount}
+          onChange={(value) => setCustomeValue("roomCount", value)}
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.IMAGES) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <div className="text-2xl font-bold mb-4">Add a photo of your place</div>
+        <ImageUpload
+          value={imageSrc}
+          onChange={(value) => setCustomeValue("imageSrc", value)}
+        />
+      </div>
+    );
+  }
+
+  if (step === STEPS.PRICE) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <div className="text-2xl font-bold mb-4">
+          How much do you charge per night? ($)
+        </div>
+        <input
+          placeholder="Price"
+          className="p-2 rounded-lg border-gray-300 border-2"
+        />
+      </div>
+    );
+  }
+
   return (
     <Modal
       isOpen={propertiesModal.isOpen}
       onClose={propertiesModal.onClose}
-      onSubmit={onNext}
+      onSubmit={handleSubmit(onSubmit)}
       actionLabel={actionLabel}
       secondaryLabel={secondaryLabel}
       secondaryActionLabel={step === STEPS.CATEGORY ? undefined : onBack}
