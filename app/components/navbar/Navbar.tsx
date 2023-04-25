@@ -24,9 +24,9 @@ const Navbar = () => {
           {/* menu */}
           <Menu />
         </div>
+        {/* categories */}
+        <Categories />
       </Container>
-      {/* categories */}
-      <Categories />
     </div>
   );
 };

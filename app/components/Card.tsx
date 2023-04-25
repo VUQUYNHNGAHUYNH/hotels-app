@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { format } from "date-fns";
 import Image from "next/image";
-import HeartButton from "./HeartButton";
 import Button from "./Button";
 
 type CardProps = {
@@ -64,9 +63,6 @@ const Card: React.FC<CardProps> = ({
             alt="Listings"
             className="object-cover h-full w-full transtion hover:opacity-80"
           />
-          <div className="absolute top-3 right-3">
-            <HeartButton propertiesId={data.id} />
-          </div>
         </div>
 
         <div className="text-lg font-semibold">{data.location}</div>
