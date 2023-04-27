@@ -9,7 +9,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import BookingList from "@/app/components/bookings/BookingList";
+import BookingList from "@/app/components/bookings/Bookings";
 import { Range } from "react-date-range";
 
 type PropertiesClientProps = {

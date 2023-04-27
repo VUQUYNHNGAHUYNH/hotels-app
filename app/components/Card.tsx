@@ -1,15 +1,15 @@
 "use client";
 
-import { Bookings, Properties } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo } from "react";
 import { format } from "date-fns";
 import Image from "next/image";
 import Button from "./Button";
+import { SafeBooking, SafeProperty } from "../types";
 
 type CardProps = {
-  data: Properties;
-  bookings?: Bookings;
+  data: SafeProperty;
+  bookings?: SafeBooking;
   onAction?: (id: string) => void;
   disabled?: boolean;
   actionLabel?: string;
@@ -24,6 +24,7 @@ const Card: React.FC<CardProps> = ({
   actionId,
 }) => {
   const router = useRouter();
+
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation();
@@ -34,6 +35,7 @@ const Card: React.FC<CardProps> = ({
     },
     [onAction, actionId, disabled]
   );
+
   const price = useMemo(() => {
     if (bookings) {
       return bookings.totalPrice;
@@ -55,7 +57,7 @@ const Card: React.FC<CardProps> = ({
       onClick={() => router.push(`/properties/${data.id}`)}
       className="col-span-1 cursor-pointer group pt-8 md:pt-4"
     >
-      <div className="flex flex-col gap-2 w-full">
+      <div className="flex flex-col w-full">
         <div className="w-full aspect-square relative overflow-hidden rounded-xl">
           <Image
             fill
@@ -64,12 +66,13 @@ const Card: React.FC<CardProps> = ({
             className="object-cover h-full w-full transtion hover:opacity-80"
           />
         </div>
-
         <div className="text-lg font-semibold">{data.location}</div>
-        <div className="font-light text-gray-600">
+        <div className="text-gray-600 text-sm">
           {bookingDate || data.category}
         </div>
-        <div className="font-semibold">${price}/ night</div>
+        <div className="font-semibold text-lg py-2">${price}</div>
+        {!bookings && <div className="font-light text-gray-600">/night</div>}
+
         {onAction && actionLabel && (
           <Button
             disabled={disabled}

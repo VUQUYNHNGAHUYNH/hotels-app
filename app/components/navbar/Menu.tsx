@@ -4,8 +4,10 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import usePropertiesModal from "../hooks/usePropertiesModal";
+import { useRouter } from "next/navigation";
 
 const Menu = () => {
+  const router = useRouter();
   const propertiesModal = usePropertiesModal();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -34,13 +36,16 @@ const Menu = () => {
       </div>
       {isOpen && (
         <div className="absolute flex flex-col lg:hidden top-16 right-4 w-[250px] text-base rounded-xl bg-yellow-50 overflow-hidden cursor-pointer">
-          <MenuItem onClick={() => {}} label="My reservations list" />
+          <MenuItem
+            onClick={() => router.push("/bookinglist")}
+            label="My Bookings list"
+          />
           <MenuItem onClick={() => {}} label="My properties list" />
           <MenuItem
             onClick={() => propertiesModal.onOpen()}
             label="Add my properties"
           />
-          <MenuItem onClick={() => {}} label="Add my reservations " />
+          <MenuItem onClick={() => {}} label="Add Bookings List " />
           <MenuItem onClick={() => {}} label="My favorites" />
         </div>
       )}

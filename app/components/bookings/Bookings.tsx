@@ -4,7 +4,7 @@ import { Range } from "react-date-range";
 import Button from "../Button";
 import CalendarInput from "../input/CalendarInput";
 
-type BookingListProps = {
+type BookingProps = {
   price: number;
   dateRange: Range;
   totalPrice: number;
@@ -13,7 +13,7 @@ type BookingListProps = {
   disabled: boolean;
   disabledDates: Date[];
 };
-const BookingList: React.FC<BookingListProps> = ({
+const Bookings: React.FC<BookingProps> = ({
   price,
   dateRange,
   totalPrice,
@@ -46,4 +46,4 @@ const BookingList: React.FC<BookingListProps> = ({
   );
 };
 
-export default BookingList;
+export default Bookings;
