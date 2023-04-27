@@ -5,39 +5,132 @@ import { BsFillHouseDoorFill, BsPeopleFill } from "react-icons/bs";
 import { Bookings } from "@prisma/client";
 import Image from "next/image";
 import { SafeProperty } from "@/app/types";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import BookingList from "@/app/components/bookings/BookingList";
+import { Range } from "react-date-range";
 
 type PropertiesClientProps = {
   bookings?: Bookings[];
   properties: SafeProperty;
 };
 
-const PropertiesClient: React.FC<PropertiesClientProps> = ({ properties }) => {
-  console.log(properties);
+const initialDateRange = {
+  startDate: new Date(),
+  endDate: new Date(),
+  key: "selection",
+};
+
+const PropertiesClient: React.FC<PropertiesClientProps> = ({
+  properties,
+  bookings = [],
+}) => {
+  const router = useRouter();
+
+  const disabledDates = useMemo(() => {
+    let dates: Date[] = [];
+
+    bookings.forEach((booking) => {
+      const range = eachDayOfInterval({
+        start: booking.startDate,
+        end: booking.endDate,
+      });
+
+      dates = [...dates, ...range];
+    });
+
+    return dates;
+  }, [bookings]);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(properties.price);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+
+  const onCreateBooking = useCallback(() => {
+    setIsLoading(true);
+    axios
+      .post("/api/bookings", {
+        totalPrice,
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+        propertyId: properties.id,
+      })
+      .then(() => {
+        toast.success("Booking created successfully!");
+        setDateRange(initialDateRange);
+        router.refresh();
+      })
+      .catch(() => {
+        toast.error("Something went wrong!");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [totalPrice, dateRange, properties.id, router]);
+
+  useEffect(() => {
+    if (dateRange.startDate && dateRange.endDate) {
+      const dayCount = differenceInCalendarDays(
+        dateRange.endDate,
+        dateRange.startDate
+      );
+      if (dayCount && properties.price) {
+        setTotalPrice(dayCount * properties.price);
+      } else {
+        setTotalPrice(properties.price);
+      }
+    }
+  }, [dateRange, properties.price]);
+
   return (
     <Container>
       <div className="pt-32 mx-auto">
-        <div className="font-semibold text-xl lg:text-2xl">
-          Hotel on {properties.location}
-        </div>
-        <div className="font-medium text-gray-500">
-          The property is close to the {properties.category}
-        </div>
-        <div className="flex items-center gap-4 text-gray-600 mt-4">
-          <div className="flex justify-center gap-2">
-            <BsPeopleFill size={22} />
-            {properties.guestCount} guests
+        {/* header */}
+        <div className="flex flex-col items-center justify-center my-4">
+          <div className="font-semibold text-xl lg:text-2xl">
+            Hotel on {properties.location}
           </div>
-          <div className="flex justify-center gap-2">
-            <BsFillHouseDoorFill size={22} /> {properties.roomCount} rooms
+          <div className="font-medium text-gray-500 md:text-lg">
+            The property is close to the {properties.category}
+          </div>
+          <div className="flex items-center gap-4 font-semibold text-gray-500 mt-4">
+            <div className="flex justify-center gap-2">
+              <BsPeopleFill size={22} />
+              {properties.guestCount} guests
+            </div>
+            <div className="flex justify-center gap-2">
+              <BsFillHouseDoorFill size={22} /> {properties.roomCount} rooms
+            </div>
           </div>
         </div>
-        <Image
-          src={properties.imageSrc}
-          alt="img"
-          className="rounded-xl mx-auto mt-8"
-          width={600}
-          height={200}
-        />
+
+        {/* image and booking */}
+        <div className="flex flex-col-reverse md:flex-row md:gap-8">
+          <div className="md:w-1/2">
+            <Image
+              src={properties.imageSrc}
+              alt="img"
+              className="rounded-xl mx-auto mt-8"
+              width={600}
+              height={200}
+            />
+          </div>
+
+          <div className="md:w-1/2">
+            <BookingList
+              price={properties.price}
+              totalPrice={totalPrice}
+              onChangeDate={(value) => setDateRange(value)}
+              dateRange={dateRange}
+              onSubmit={onCreateBooking}
+              disabled={isLoading}
+              disabledDates={disabledDates}
+            />
+          </div>
+        </div>
       </div>
     </Container>
   );
