@@ -66,7 +66,7 @@ const Card: React.FC<CardProps> = ({
             className="object-cover h-full w-full transtion hover:opacity-80"
           />
         </div>
-        <div className="p-2">
+    
           <div className="text-lg font-semibold">{data.location}</div>
           <div className="text-gray-600 text-sm">
             {bookingDate || data.category}
@@ -75,7 +75,6 @@ const Card: React.FC<CardProps> = ({
             <div className="font-semibold text-lg py-2">${price}</div>
             {!bookings && <div className="text-gray-600 text-sm">/night</div>}
           </div>
-        </div>
 
         {onAction && actionLabel && (
           <Button
