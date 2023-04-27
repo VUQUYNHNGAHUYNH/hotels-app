@@ -11,6 +11,7 @@ import Card from "../components/Card";
 type BookingListProps = {
   bookings: SafeBooking[];
 };
+
 const BookingList: React.FC<BookingListProps> = ({ bookings }) => {
   const router = useRouter();
   const [deleteId, setDeleteId] = useState("");

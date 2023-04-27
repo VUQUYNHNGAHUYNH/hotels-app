@@ -2,6 +2,7 @@ import "./globals.css";
 import { Outfit } from "next/font/google";
 import Navbar from "./components/navbar/Navbar";
 import PropertiesModal from "./components/modals/PropertiesModal";
+import ToasterProvider from "@/app/providers/ToasterProvider";
 
 const font = Outfit({ subsets: ["latin"] });
 export const metadata = {
@@ -18,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+        <ToasterProvider />
         <PropertiesModal />
         <Navbar />
         <div className="pb-20 pt-24">{children}</div>
