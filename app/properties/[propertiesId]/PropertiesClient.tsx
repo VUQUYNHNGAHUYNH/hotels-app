@@ -2,9 +2,8 @@
 
 import Container from "@/app/components/Container";
 import { BsFillHouseDoorFill, BsPeopleFill } from "react-icons/bs";
-import { Bookings } from "@prisma/client";
 import Image from "next/image";
-import { SafeProperty } from "@/app/types";
+import { SafeBooking, SafeProperty } from "@/app/types";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
@@ -14,7 +13,7 @@ import BookingList from "@/app/components/bookings/BookingList";
 import { Range } from "react-date-range";
 
 type PropertiesClientProps = {
-  bookings?: Bookings[];
+  bookings?: SafeBooking[];
   properties: SafeProperty;
 };
 
@@ -33,10 +32,10 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
 
-    bookings.forEach((booking) => {
+    bookings.forEach((booking: any) => {
       const range = eachDayOfInterval({
-        start: booking.startDate,
-        end: booking.endDate,
+        start: new Date(booking.startDate),
+        end: new Date(booking.endDate),
       });
 
       dates = [...dates, ...range];
@@ -56,7 +55,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
         totalPrice,
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
-        propertyId: properties.id,
+        propertiesId: properties.id,
       })
       .then(() => {
         toast.success("Booking created successfully!");
