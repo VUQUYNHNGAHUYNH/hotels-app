@@ -40,13 +40,15 @@ const Menu = () => {
             onClick={() => router.push("/bookinglist")}
             label="My Bookings list"
           />
-          <MenuItem onClick={() => {}} label="My properties list" />
+          <MenuItem
+            onClick={() => router.push("/properties")}
+            label="My Properties list"
+          />
           <MenuItem
             onClick={() => propertiesModal.onOpen()}
             label="Add my properties"
           />
           <MenuItem onClick={() => {}} label="Add Bookings List " />
-          <MenuItem onClick={() => {}} label="My favorites" />
         </div>
       )}
     </div>

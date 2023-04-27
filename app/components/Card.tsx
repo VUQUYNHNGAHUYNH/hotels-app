@@ -31,7 +31,7 @@ const Card: React.FC<CardProps> = ({
       if (disabled) {
         return;
       }
-      onAction?.(actionId);
+      onAction?.(actionId ?? "");
     },
     [onAction, actionId, disabled]
   );
@@ -66,12 +66,16 @@ const Card: React.FC<CardProps> = ({
             className="object-cover h-full w-full transtion hover:opacity-80"
           />
         </div>
-        <div className="text-lg font-semibold">{data.location}</div>
-        <div className="text-gray-600 text-sm">
-          {bookingDate || data.category}
+        <div className="p-2">
+          <div className="text-lg font-semibold">{data.location}</div>
+          <div className="text-gray-600 text-sm">
+            {bookingDate || data.category}
+          </div>
+          <div className="flex items-baseline justify-center">
+            <div className="font-semibold text-lg py-2">${price}</div>
+            {!bookings && <div className="text-gray-600 text-sm">/night</div>}
+          </div>
         </div>
-        <div className="font-semibold text-lg py-2">${price}</div>
-        {!bookings && <div className="font-light text-gray-600">/night</div>}
 
         {onAction && actionLabel && (
           <Button
