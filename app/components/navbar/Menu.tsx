@@ -14,18 +14,24 @@ const Menu = () => {
   const toggleOpen = useCallback(() => setIsOpen((value) => !value), []);
   return (
     <div className="relative">
-      <div className="hidden lg:flex items-center justify-between gap-4">
-        <div className="text-sm hover:bg-yellow-600 hover:text-white font-semibold py-3 px-4 rounded-full transition cursor-pointer border border-gray-300">
-          My reservations
+      <div className="hidden lg:flex items-center justify-between text-yellow-700 gap-4">
+        <div
+          onClick={() => router.push("/bookinglist")}
+          className="text-sm hover:bg-yellow-600 hover:text-white font-semibold py-3 px-4 rounded-full transition cursor-pointer border border-yellow-600"
+        >
+          Bookings List
+        </div>
+        <div
+          onClick={() => router.push("/properties")}
+          className="text-sm hover:bg-yellow-600 hover:text-white font-semibold py-3 px-4 rounded-full transition cursor-pointer border border-yellow-600"
+        >
+          Properties List
         </div>
         <div
           onClick={() => propertiesModal.onOpen()}
-          className="text-sm hover:bg-yellow-600 hover:text-white font-semibold py-3 px-4 rounded-full transition cursor-pointer border border-gray-300"
+          className="text-sm hover:bg-yellow-600 hover:text-white font-semibold py-3 px-4 rounded-full transition cursor-pointer border border-yellow-600"
         >
-          Add properties
-        </div>
-        <div className="text-sm hover:bg-yellow-600 hover:text-white font-semibold py-3 px-4 rounded-full transition cursor-pointer border border-gray-300">
-          My favorites
+          Add Properties
         </div>
       </div>
       <div
@@ -48,7 +54,6 @@ const Menu = () => {
             onClick={() => propertiesModal.onOpen()}
             label="Add my properties"
           />
-          <MenuItem onClick={() => {}} label="Add Bookings List " />
         </div>
       )}
     </div>

@@ -44,7 +44,6 @@ const PropertiesModal = () => {
   const guestCount = watch("guestCount");
   const roomCount = watch("roomCount");
   const imageSrc = watch("imageSrc");
-  const price = watch("price");
 
   const setCustomeValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -135,7 +134,7 @@ const PropertiesModal = () => {
           onChange={(value) => setCustomeValue("guestCount", value)}
         />
         <CounterInput
-          title="Rooms "
+          title="Rooms"
           subtitle="How many rooms do you have?"
           value={roomCount}
           onChange={(value) => setCustomeValue("roomCount", value)}

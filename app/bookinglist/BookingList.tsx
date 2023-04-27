@@ -38,7 +38,7 @@ const BookingList: React.FC<BookingListProps> = ({ bookings }) => {
 
   return (
     <Container>
-      <div className="pt-32">
+      <div className="mt-32  p-2 lg:p-6">
         <h1 className="text-xl xl:text-2xl text-center font-bold text-yellow-600">
           Bookings List
         </h1>
