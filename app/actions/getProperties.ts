@@ -12,9 +12,9 @@ export type IParams = {
     category?: string;
 }
 
-export default async function getProperties(params: IParams) {
+export default async function getProperties(params?: IParams) {
  try {
-    const { guestCount, roomCount, startDate, endDate, location, category } = params;
+    const { guestCount, roomCount, startDate, endDate, location, category } = params ?? {};
 
     let query:any = {}
 
