@@ -23,7 +23,7 @@ const Bookings: React.FC<BookingProps> = ({
   disabledDates,
 }) => {
   return (
-    <div className="bg-white rounded-xl border border-gray-300 overflow-hidden">
+    <div className="bg-white mt-8 rounded-xl border border-gray-300 overflow-hidden">
       <div className="flex items-center gap-1 p-4">
         <div className="text-2xl">$ {price}</div>
         <div className="text-gray-500">per night</div>

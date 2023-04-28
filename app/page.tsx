@@ -1,10 +1,14 @@
-import getProperties from "./actions/getProperties";
+import getProperties, { IParams } from "./actions/getProperties";
 import Card from "./components/Card";
 import Container from "./components/Container";
 import EmptyState from "./components/EmptyState";
 
-export default async function Home() {
-  const properties = await getProperties();
+type HomeProps = {
+  searchParams: IParams;
+};
+
+export default async function Home({ searchParams }: HomeProps) {
+  const properties = await getProperties(searchParams);
 
   if (properties.length === 0) return <EmptyState showReset />;
   return (

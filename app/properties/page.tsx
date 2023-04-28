@@ -1,9 +1,13 @@
-import getProperties from "../actions/getProperties";
+import getProperties, { IParams } from "../actions/getProperties";
 import EmptyState from "../components/EmptyState";
 import PropertiesList from "./PropertiesList";
 
-const PropertiesPage = async () => {
-  const properties = await getProperties();
+type PropertiesProps = {
+  searchParams: IParams;
+};
+
+const PropertiesPage = async ({ searchParams }: PropertiesProps) => {
+  const properties = await getProperties(searchParams);
 
   if (properties.length === 0) return <EmptyState showReset />;
 
