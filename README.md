@@ -1,5 +1,7 @@
 # Full Stack Hotels Website with Next.js 13 App Router: React, Tailwind, Prisma, MongoDB
 
+![Hotels website](/hotelsweb.png)
+
 ## Features:
 
 - Tailwind design
