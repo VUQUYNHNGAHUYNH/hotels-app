@@ -90,7 +90,7 @@ const PropertiesClient: React.FC<PropertiesClientProps> = ({
         {/* header */}
         <div className="flex flex-col items-center justify-center my-4">
           <div className="font-semibold text-xl lg:text-2xl">
-            Hotel on {properties.location}
+            Hotel in {properties.location}
           </div>
           <div className="font-medium text-gray-500 md:text-lg">
             The property is close to the {properties.category}

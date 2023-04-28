@@ -66,15 +66,15 @@ const Card: React.FC<CardProps> = ({
             className="object-cover h-full w-full transtion hover:opacity-80"
           />
         </div>
-    
-          <div className="text-lg font-semibold">{data.location}</div>
-          <div className="text-gray-600 text-sm">
-            {bookingDate || data.category}
-          </div>
-          <div className="flex items-baseline justify-center">
-            <div className="font-semibold text-lg py-2">${price}</div>
-            {!bookings && <div className="text-gray-600 text-sm">/night</div>}
-          </div>
+
+        <div className="text-lg font-semibold">{data.location}</div>
+        <div className="text-gray-600 text-sm">
+          {bookingDate || data.category}
+        </div>
+        <div className="flex items-baseline">
+          <div className="font-semibold text-lg py-2">${price}</div>
+          {!bookings && <div className="text-gray-600 text-sm">/night</div>}
+        </div>
 
         {onAction && actionLabel && (
           <Button
